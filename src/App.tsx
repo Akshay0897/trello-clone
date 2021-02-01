@@ -1,13 +1,24 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { Card } from './Card';
+import { Column } from './Column';
+import { AppContainer, ColumnContainer } from "./styles"
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-     Trello clone started
-    </div>
-  );
+    <AppContainer>
+      <Column text="To Do">
+        <Card text="Generate app scaffold" />
+      </Column>
+      <Column text="In Progress">
+        <Card text="Learn Typescript" />
+      </Column>
+      <Column text="Done">
+        <Card text="Begin to use static typing" />
+      </Column>
+    </AppContainer>
+  )
 }
+
 
 export default App;
