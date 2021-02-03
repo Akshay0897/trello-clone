@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import AddNewItemForm from './AddNewItemForm';
 import { Card } from './Card';
 import { ColumnContainer, ColumnTitle } from './styles'
 
@@ -16,11 +17,9 @@ export const Column = ({
     children
 }: React.PropsWithChildren<ColumnProps>) => {
 
-    const [isOpen, setisOpen] = React.useState(false);
-    const [addText, setaddText] = React.useState("");
     const [cards, setCards] = useState<Cards[]>([]);
 
-    const addCard = () => {
+    const addCard = (addText) => {
         setCards([...cards, { id: cards.length++, text: addText }]);
     }
 
@@ -32,17 +31,7 @@ export const Column = ({
                 cards.map(card => <Card key={card.id} text={card.text} />)
             }
             <div>
-                {
-                    isOpen ? (
-                        <div>
-                            <input placeholder="type here..." id="add" value={addText} onChange={(e) => setaddText(e.currentTarget.value)}></input>
-                            <button type="button" disabled={addText.length > 0 ? false : true} onClick={() => addCard()}>Add to List</button>
-                            <button type="button" onClick={() => setisOpen(!isOpen)}> X </button>
-                        </div>
-                    )
-                        :
-                        <button type="button" onClick={() => setisOpen(!isOpen)}> Add </button>
-                }
+                <AddNewItemForm title="add new card" onClick={addCard} />   
             </div>
         </ColumnContainer>
     )
