@@ -1,56 +1,23 @@
 import React from 'react';
-import AddNewItemForm from './AddNewItemForm';
 import './App.css';
-import { Card } from './Card';
 import { Column } from './Column';
-import { AppContainer, ColumnContainer } from "./styles";
-
-type Cards = {
-  id: number,
-  text: string
-}
-
-type Columns = {
-  id: number,
-  text: string,
-  cards: Cards[]
-}
+import { AppContainer  } from "./styles";
+import { AddNewItem } from "./AddNewItem";
+import { useAppState } from './AppStateContext';
 
 const App = () => {
 
-  const addNewColumn = (text) => {
-    setColumns([...columns, { id: columns.length++, text: text, cards: [] }])
-  }
-
-  const [columns, setColumns] = React.useState<Columns[]>([
-    {
-      id: 0,
-      text: "first task list",
-      cards: [
-        {
-          id: 0,
-          text: "here it goes"
-        }
-      ]
-    }
-  ]);
+  const { state, dispatch } = useAppState()
 
   return (
     <AppContainer>
-      {
-        columns.map(column => {
-          return (
-            <Column text={column.text} key={column.id}>
-              {
-                column.cards.map(card => {
-                  return (<Card key={card.id} text={card.text} />)
-                })
-              }
-            </Column>
-          )
-        })
-      }
-      <AddNewItemForm title="Add new column" onClick={addNewColumn} />
+      {state.lists.map((list, i) => (
+        <Column text={list.text} key={list.id} index={i} />
+      ))}
+      <AddNewItem
+        toggleButtonText="+ Add another list"
+        onAdd={text => dispatch({ type: "ADD_LIST", payload: text })}
+      />
     </AppContainer>
   )
 }
